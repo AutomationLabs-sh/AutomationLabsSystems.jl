@@ -7,6 +7,7 @@ Welcome to AutomationLabsSystems.jl package. AutomationLabsModelsystems is a low
 This package uses the following packages:
 
 * [AutomationLabsIdentification](https://github.com/AutomationLabs-sh/AutomationLabsIdentification.jl) with Mozilla Public License version 2.0
+* [Flux](https://github.com/FluxML/Flux.jl) with MIT licence
 * [ForwarDiff](https://github.com/JuliaDiff/ForwardDiff.jl) with MIT licence
 * [LazySets](https://github.com/JuliaReach/LazySets.jl) with MIT licence
 * [MathematicalSystems](https://github.com/JuliaReach/MathematicalSystems.jl) with MIT licence
