@@ -66,9 +66,9 @@ function proceed_system(model_method, model_origin; kws_...)
     if model_origin == "identification"
         #extract the model type 
 
-        if haskey(kws, :machine_mlj) == true && model_method == "continuous"
+        if haskey(kws, :f) == true && model_method == "continuous"
 
-            machine_mlj = kws[:machine_mlj]
+            machine_mlj = kws[:f]
             # Get the type of the model from the machine_mlj
             model_mlj_type = _get_mlj_model_type(machine_mlj)
 
@@ -85,9 +85,9 @@ function proceed_system(model_method, model_origin; kws_...)
             end
         end
 
-        if haskey(kws, :machine_mlj) == true && model_method == "discrete"
+        if haskey(kws, :f) == true && model_method == "discrete"
 
-            machine_mlj = kws[:machine_mlj]
+            machine_mlj = kws[:f]
             # Get the type of the model from the machine_mlj
             model_mlj_type = _get_mlj_model_type(machine_mlj)
 
@@ -127,3 +127,42 @@ function proceed_system(model_method, model_origin; kws_...)
     end
         
 end
+
+"""
+    system_linearization
+Function that linearises a system from MathematicalSystems at state and input references. 
+The function uses ForwardDiff package and the jacobian function.
+
+** Required fields **
+* `system`: the mathematital system that as in it the julia non-linear function `f`.
+* `state`: references state point.
+* `input`: references input point.
+"""
+function proceed_system_linearization( system::MathematicalSystems.ConstrainedBlackBoxControlContinuousSystem,
+                               state::Vector{Float64}, 
+                               input::Vector{Float64} )
+   
+    #Linearization to get A and B at references values (state and input)
+    VectorXU = vcat(state, input);
+    JacobianMatrix = ForwardDiff.jacobian(system.f, VectorXU);
+    A_sys  = JacobianMatrix[1:system.statedim,1:system.statedim];
+    B_sys  = JacobianMatrix[1:system.statedim, system.statedim+1:end];
+
+    return MathematicalSystems.@system x' = A_sys*x + B_sys*u x∈system.X u∈system.U 
+end
+
+function proceed_system_linearization( system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+    state::Vector{Float64}, 
+    input::Vector{Float64} )
+
+    #Linearization to get A and B at references values (state and input)
+    VectorXU = vcat(state, input);
+    JacobianMatrix = ForwardDiff.jacobian(system.f, VectorXU);
+    A_sys  = JacobianMatrix[1:system.statedim,1:system.statedim];
+    B_sys  = JacobianMatrix[1:system.statedim, system.statedim+1:end];
+
+    return MathematicalSystems.@system x⁺ = A_sys*x + B_sys*u x∈system.X u∈system.U
+end
+
+
+# to continuous system to discrete system

@@ -6,8 +6,12 @@
 # You can obtain one at https://mozilla.org/MPL/2.0/.  #
 ########################################################
 
-# Test subfunctions from AutomationPod cli package
 print("Testing AutomationLabsSystems sub functions...")
 took_seconds = @elapsed include("./systems_test.jl");
+println("done (took ", took_seconds, " seconds)")
+
+
+print("Testing AutomationLabsSystems sub functions...")
+took_seconds = @elapsed include("./system_linearization_test.jl");
 println("done (took ", took_seconds, " seconds)")
 

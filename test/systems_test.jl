@@ -12,8 +12,8 @@ using AutomationLabsSystems
 using AutomationLabsIdentification
 using MathematicalSystems
 using LazySets
-
 using MLJ
+using Flux
 
 @testset "Linear user system with state and input constraints" begin
 
@@ -226,7 +226,7 @@ end
               -1 1]
 
     sys = proceed_system("discrete", model_origin; 
-                            machine_mlj = linear_regressor_machine, 
+                            f = linear_regressor_machine, 
                             input_constraint = u_cons,
                             nbr_state = 4,
                             nbr_input = 2,
@@ -245,7 +245,7 @@ end
 
     model_origin = "identification"
 
-    linear_regressor_machine = machine("./models_saved/linear_regressor_train_result.jls")
+    densenet = machine("./models_saved/densenet_train_result.jls")
 
     u_cons = [-1 1;
               -1 1]
@@ -255,14 +255,14 @@ end
               -5 5]
 
     sys = proceed_system("discrete", model_origin; 
-                            machine_mlj = linear_regressor_machine, 
+                            f = densenet, 
                             input_constraint = u_cons,
                             state_constraint = x_cons,
                             nbr_state = 4,
                             nbr_input = 2,
                             )
 
-    @test typeof(sys) == ConstrainedLinearControlDiscreteSystem{Float32, Matrix{Float32}, Matrix{Float32}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}}
+    @test typeof(sys) == ConstrainedBlackBoxControlDiscreteSystem{Chain{Tuple{Dense{typeof(identity), Matrix{Float32}, Bool}, Chain{Tuple{SkipConnection{Chain{Tuple{Dense{typeof(relu), Matrix{Float32}, Vector{Float32}}}}, typeof(vcat)}}}, Dense{typeof(identity), Matrix{Float32}, Bool}}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}}
 
     @test LazySets.low(sys.X) == [-5.0, -5.0, -5.0, -5.0] 
     @test LazySets.high(sys.X) == [5.0, 5.0, 5.0, 5.0] 
@@ -270,7 +270,6 @@ end
     @test LazySets.high(sys.U) == [1.0, 1.0]
  
 end
-
 
 @testset "Linear continuous identification system with input constraints" begin 
 
@@ -282,7 +281,7 @@ end
               -1 1]
 
     sys = proceed_system("continuous", model_origin; 
-                            machine_mlj = linear_regressor_machine, 
+                            f = linear_regressor_machine, 
                             input_constraint = u_cons,
                             nbr_state = 4,
                             nbr_input = 2,
@@ -301,7 +300,7 @@ end
 
     model_origin = "identification"
 
-    linear_regressor_machine = machine("./models_saved/linear_regressor_train_result.jls")
+    densenet = machine("./models_saved/densenet_train_result.jls")
 
     u_cons = [-1 1;
               -1 1]
@@ -311,14 +310,14 @@ end
               -5 5]
 
     sys = proceed_system("continuous", model_origin; 
-                            machine_mlj = linear_regressor_machine, 
+                            f = densenet, 
                             input_constraint = u_cons,
                             state_constraint = x_cons,
                             nbr_state = 4,
                             nbr_input = 2,
                             )
 
-    @test typeof(sys) == ConstrainedLinearControlContinuousSystem{Float32, Matrix{Float32}, Matrix{Float32}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}}
+    @test typeof(sys) == ConstrainedBlackBoxControlContinuousSystem{Chain{Tuple{Dense{typeof(identity), Matrix{Float32}, Bool}, Chain{Tuple{SkipConnection{Chain{Tuple{Dense{typeof(relu), Matrix{Float32}, Vector{Float32}}}}, typeof(vcat)}}}, Dense{typeof(identity), Matrix{Float32}, Bool}}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}, Hyperrectangle{Float64, Vector{Float64}, Vector{Float64}}}
 
     @test LazySets.low(sys.X) == [-5.0, -5.0, -5.0, -5.0] 
     @test LazySets.high(sys.X) == [5.0, 5.0, 5.0, 5.0] 
@@ -326,7 +325,5 @@ end
     @test LazySets.high(sys.U) == [1.0, 1.0]
  
 end
-
-
 
 end

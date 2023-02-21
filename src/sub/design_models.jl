@@ -6,11 +6,6 @@
 # You can obtain one at https://mozilla.org/MPL/2.0/.  #
 ########################################################
 
-
-
-    # Get the type of the model from the machine_mlj
-    #model_mlj_type = _get_mlj_model_type(machine_mlj)
-
 #to do find a better way to get the AutomationLabsIdentification type
 function _get_mlj_model_type(machine_mlj::MLJ.Machine{MLJMultivariateStatsInterface.MultitargetLinearRegressor, true})
 

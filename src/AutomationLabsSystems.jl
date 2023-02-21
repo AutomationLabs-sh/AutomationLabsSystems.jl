@@ -13,13 +13,16 @@ import AutomationLabsIdentification
 import MLJ
 import MLJMultivariateStatsInterface
 import LazySets
+import Flux
+import ForwardDiff
 
 export proceed_system
+export proceed_system_linearization
 
 # Load files
-include("types.jl")
-include("design_models.jl")
-include("design_systems.jl")
-include("main_systems.jl")
+include("types/types.jl")
+include("sub/design_models.jl")
+include("sub/design_systems.jl")
+include("main/main_systems.jl")
 
 end
