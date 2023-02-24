@@ -1,7 +1,7 @@
 name = "AutomationLabsSystems"
 uuid = "6d3dfdf0-e107-48c6-a6ff-eced1a5a9334"
 authors = ["Pierre BLAUD <pierre.blaud@ikmail.com> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 AutomationLabsIdentification = "48ff5a6f-d08b-4053-9585-6a9e3e078386"
@@ -11,6 +11,7 @@ LazySets = "b4f0291d-fe17-52bc-9479-3d1a343d9043"
 MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
 MLJMultivariateStatsInterface = "1b6a4a23-ba22-4f51-9698-8599985d3728"
 MathematicalSystems = "d14a8603-c872-5ed3-9ece-53e0e82e39da"
+NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
 
 [compat]
 AutomationLabsIdentification = "0.2"
@@ -20,6 +21,7 @@ LazySets = "2"
 MLJ = "0.19"
 MLJMultivariateStatsInterface = "0.5"
 MathematicalSystems = "0.13"
+NNlib = "0.8"
 julia = "1"
 
 [extras]

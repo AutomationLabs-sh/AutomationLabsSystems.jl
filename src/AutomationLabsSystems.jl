@@ -15,9 +15,13 @@ import MLJMultivariateStatsInterface
 import LazySets
 import Flux
 import ForwardDiff
+import NNlib
 
 export proceed_system
 export proceed_system_linearization
+
+#export proceed_system_discretization 
+export proceed_system_model_evaluation
 
 # Load files
 include("types/types.jl")

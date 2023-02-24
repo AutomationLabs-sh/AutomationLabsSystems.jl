@@ -151,7 +151,7 @@ function proceed_system_linearization( system::MathematicalSystems.ConstrainedBl
     return MathematicalSystems.@system x' = A_sys*x + B_sys*u x∈system.X u∈system.U 
 end
 
-function proceed_system_linearization( system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+function proceed_system_linearization(system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
     state::Vector{Float64}, 
     input::Vector{Float64} )
 
@@ -164,5 +164,47 @@ function proceed_system_linearization( system::MathematicalSystems.ConstrainedBl
     return MathematicalSystems.@system x⁺ = A_sys*x + B_sys*u x∈system.X u∈system.U
 end
 
+function proceed_system_linearization(system::MathematicalSystems.ConstrainedLinearControlDiscreteSystem,
+    state::Vector{Float64}, 
+    input::Vector{Float64} )
+
+    return system
+end
+
+function proceed_system_linearization(system::MathematicalSystems.ConstrainedLinearControlContinuousSystem,
+    state::Vector{Float64}, 
+    input::Vector{Float64} )
+
+    return system
+end
+
 
 # to continuous system to discrete system
+
+
+# Extract model from a system from identification and user function
+function proceed_system_model_evaluation(system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem)
+
+    if typeof(system.f) == Flux.Chain{Tuple{Flux.Dense{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{NTuple{4, Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}, Flux.Dense{typeof(identity), Matrix{Float32}, Bool}}}
+        model_type = AutomationLabsIdentification.Fnn()
+    
+    elseif typeof(system.f) == Flux.Chain{Tuple{AutomationLabsIdentification.DenseIcnn{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{Tuple{AutomationLabsIdentification.DenseIcnn{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}, AutomationLabsIdentification.DenseIcnn{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}, AutomationLabsIdentification.DenseIcnn{typeof(identity), Matrix{Float32}, Bool}}}
+        model_type = AutomationLabsIdentification.Icnn()
+    
+    elseif typeof(system.f) == Flux.Chain{Tuple{Flux.Dense{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{Tuple{Flux.SkipConnection{Flux.Chain{Tuple{Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}, typeof(+)}}}, Flux.Dense{typeof(identity), Matrix{Float32}, Bool}}}
+        model_type = AutomationLabsIdentification.ResNet()
+
+    elseif typeof(system.f) == Flux.Chain{Tuple{Flux.Dense{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{Tuple{Flux.SkipConnection{Flux.Chain{Tuple{Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}, typeof(vcat)}}}, Flux.Dense{typeof(identity), Matrix{Float32}, Bool}}}
+        model_type = AutomationLabsIdentification.DenseNet()
+
+    elseif typeof(system.f) == Flux.Chain{Tuple{Flux.Dense{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{NTuple{4, Flux.SkipConnection{Flux.Parallel{typeof(+), Tuple{Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}, Flux.Chain{Tuple{Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}, Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}}}, typeof(+)}}}, Flux.Dense{typeof(identity), Matrix{Float32}, Bool}}}
+        model_type = AutomationLabsIdentification.PolyNet()
+
+    elseif typeof(system.f) == Function
+        model_type = typeof(system.f)
+    
+    end
+
+
+    return model_type 
+end
