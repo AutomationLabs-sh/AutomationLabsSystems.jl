@@ -15,3 +15,7 @@ print("Testing AutomationLabsSystems sub functions...")
 took_seconds = @elapsed include("./system_linearization_test.jl");
 println("done (took ", took_seconds, " seconds)")
 
+
+print("Testing AutomationLabsSystems sub functions...")
+took_seconds = @elapsed include("./system_discretization_test.jl");
+println("done (took ", took_seconds, " seconds)")

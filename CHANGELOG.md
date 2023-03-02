@@ -1,5 +1,10 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.2
+
+* Add continuous linear system discretization function.
+* Improve tests.
+
 ## v0.1.1
 
 * Add system linearization.

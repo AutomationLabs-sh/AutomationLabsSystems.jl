@@ -11,6 +11,7 @@
 A function for system creation.
 
 The following variables are mendatories:
+* `model_method`: a String for continous or discrete system.
 * `model_origin`: a String for origin of the model.
 
 It is possible to define optional variables kws.
@@ -129,7 +130,7 @@ function proceed_system(model_method, model_origin; kws_...)
 end
 
 """
-    system_linearization
+    proceed_system_linearization
 Function that linearises a system from MathematicalSystems at state and input references. 
 The function uses ForwardDiff package and the jacobian function.
 
@@ -179,10 +180,13 @@ function proceed_system_linearization(system::MathematicalSystems.ConstrainedLin
 end
 
 
-# to continuous system to discrete system
+"""
+    proceed_system_model_evaluation
+Function that return the types of the model inside the systems from AutomationLabsIdentification.
 
-
-# Extract model from a system from identification and user function
+** Required fields **
+* `system`: the mathematital system that as in it the julia non-linear function `f` from AutomationLabsIdentification.
+"""
 function proceed_system_model_evaluation(system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem)
 
     if typeof(system.f) == Flux.Chain{Tuple{Flux.Dense{typeof(identity), Matrix{Float32}, Bool}, Flux.Chain{NTuple{4, Flux.Dense{typeof(NNlib.relu), Matrix{Float32}, Vector{Float32}}}}, Flux.Dense{typeof(identity), Matrix{Float32}, Bool}}}
@@ -205,6 +209,26 @@ function proceed_system_model_evaluation(system::MathematicalSystems.Constrained
     
     end
 
-
     return model_type 
+end
+
+"""
+    proceed_system_discretization
+Function that linearises a system from MathematicalSystems at state and input references. 
+The function uses ForwardDiff package and the jacobian function.
+
+** Required fields **
+* `system`: the continuous mathematital system that as in it the julia linear or non-linear function `f`.
+* `sample_time`: the sample time for discretization.
+"""
+function proceed_system_discretization(system::MathematicalSystems.ConstrainedLinearControlContinuousSystem, sample_time)
+
+    D = 0
+    C = ones(size(system.A, 1), size(system.A, 2)) 
+    sys_c = ControlSystems.ss(system.A, system.B, C, D)
+    sys_d = ControlSystems.c2d(sys_c, sample_time)
+    A_sys = sys_d.A
+    B_sys = sys_d.B 
+
+    return MathematicalSystems.@system x⁺ = A_sys*x + B_sys*u x∈system.X u∈system.U
 end
