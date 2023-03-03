@@ -21,8 +21,8 @@ Model linear implementation with AutomationLabs.
 * `B`: input matrix.
 """
 struct ContinuousLinearModel <: AbstractModel
-    A::Union{Matrix, Vector}
-    B::Union{Matrix, Vector}
+    A::Union{Matrix,Vector}
+    B::Union{Matrix,Vector}
     nbr_state::Int
     nbr_input::Int
 end
@@ -36,8 +36,8 @@ Model linear implementation with AutomationLabs.
 * `B`: input matrix.
 """
 struct DiscreteLinearModel <: AbstractModel
-    A::Union{Matrix, Vector}
-    B::Union{Matrix, Vector}
+    A::Union{Matrix,Vector}
+    B::Union{Matrix,Vector}
     nbr_state::Int
     nbr_input::Int
 end
@@ -52,7 +52,7 @@ Model non linear implementation with AutoamtionLabs.
 * `nbr_input`: the input number
 """
 struct ContinuousNonLinearModel <: AbstractModel
-    f::Union{Function, Flux.Chain}
+    f::Union{Function,Flux.Chain}
     nbr_state::Int
     nbr_input::Int
 end
@@ -67,7 +67,7 @@ Model non linear implementation with AutoamtionLabs.
 * `nbr_input`: the input number
 """
 struct DiscreteNonLinearModel <: AbstractModel
-    f::Union{Function, Flux.Chain}
+    f::Union{Function,Flux.Chain}
     nbr_state::Int
     nbr_input::Int
 end

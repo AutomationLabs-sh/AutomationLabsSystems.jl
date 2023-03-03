@@ -7,9 +7,11 @@
 ########################################################
 
 #to do find a better way to get the AutomationLabsIdentification type
-function _get_mlj_model_type(machine_mlj::MLJ.Machine{MLJMultivariateStatsInterface.MultitargetLinearRegressor, true})
+function _get_mlj_model_type(
+    machine_mlj::MLJ.Machine{MLJMultivariateStatsInterface.MultitargetLinearRegressor,true},
+)
 
-    return  machine_mlj.model
+    return machine_mlj.model
 end
 
 function _get_mlj_model_type(machine_mlj)
@@ -22,14 +24,16 @@ end
 A function for design the system (model and constraints) with MathematicalSystems from linear model.
 """
 function _extract_model_from_machine(
-    model_type::Union{AutomationLabsIdentification.Fnn, 
-                 AutomationLabsIdentification.Icnn,
-                 AutomationLabsIdentification.ResNet, 
-                 AutomationLabsIdentification.DenseNet, 
-                 AutomationLabsIdentification.Rbf, 
-                 AutomationLabsIdentification.PolyNet, 
-                 AutomationLabsIdentification.NeuralNetODE_type1, 
-                 AutomationLabsIdentification.NeuralNetODE_type2},
+    model_type::Union{
+        AutomationLabsIdentification.Fnn,
+        AutomationLabsIdentification.Icnn,
+        AutomationLabsIdentification.ResNet,
+        AutomationLabsIdentification.DenseNet,
+        AutomationLabsIdentification.Rbf,
+        AutomationLabsIdentification.PolyNet,
+        AutomationLabsIdentification.NeuralNetODE_type1,
+        AutomationLabsIdentification.NeuralNetODE_type2,
+    },
     machine_mlj,
 )
 
@@ -51,9 +55,8 @@ function _extract_model_from_machine(
     AB_t = MLJ.fitted_params(machine_mlj).coefficients
     AB = copy(AB_t')
     A = AB[:, 1:nbr_state]
-    B = AB[:, nbr_state+1: end]
+    B = AB[:, nbr_state+1:end]
 
     # Set the system
     return A, B
 end
-

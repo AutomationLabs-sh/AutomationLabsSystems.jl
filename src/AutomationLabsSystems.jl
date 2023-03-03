@@ -21,7 +21,7 @@ import ControlSystems
 export proceed_system
 export proceed_system_linearization
 
-export proceed_system_discretization 
+export proceed_system_discretization
 export proceed_system_model_evaluation
 
 # Load files
