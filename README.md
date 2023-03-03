@@ -1,7 +1,7 @@
 # AutomationLabsSystems.jl
 
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
-[lic-url]: https://github.com/AutomationLabs-sh/AutomationLabsSystems.jl/blob/main/LICENSE.md
+[!lic-url]: https://github.com/AutomationLabs-sh/AutomationLabsSystems.jl/blob/main/LICENSE.md
 
 
 Welcome to AutomationLabsSystems.jl package. AutomationLabsModelsystems is a low level package for AutomationLabs platform. This repository is not intended to be directly imported by the user.
