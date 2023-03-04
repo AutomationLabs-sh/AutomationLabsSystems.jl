@@ -15,14 +15,14 @@ MathematicalSystems = "d14a8603-c872-5ed3-9ece-53e0e82e39da"
 NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
 
 [compat]
-AutomationLabsIdentification = "< 0.3"
-ControlSystems = "<1.7"
+AutomationLabsIdentification = "0.2"
+ControlSystems = "1.6"
 Flux = "0.13"
 ForwardDiff = "0.10"
-LazySets = "<2.7"
+LazySets = "2"
 MLJ = "0.19"
 MLJMultivariateStatsInterface = "0.5"
-MathematicalSystems = "< 0.14"
+MathematicalSystems = "0.13"
 NNlib = "0.8"
 julia = "1"
 

@@ -40,31 +40,38 @@ using Flux
     sys_l = proceed_system_linearization(sys, x_ref, u_ref)
 
     @test typeof(sys) == ConstrainedBlackBoxControlDiscreteSystem{
-        Flux.Chain{
+        Chain{
             Tuple{
-                Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-                Flux.Chain{
+                Dense{typeof(identity),Matrix{Float32},Bool},
+                Chain{
                     Tuple{
-                        Flux.SkipConnection{
-                            Flux.Chain{
-                                Tuple{
-                                    Flux.Dense{
-                                        typeof(NNlib.relu),
-                                        Matrix{Float32},
-                                        Vector{Float32},
-                                    },
-                                },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
                             },
                             typeof(vcat),
                         },
                     },
                 },
-                Flux.Dense{typeof(identity),Matrix{Float32},Bool},
+                Dense{typeof(identity),Matrix{Float32},Bool},
             },
         },
         Hyperrectangle{Float64,Vector{Float64},Vector{Float64}},
         Hyperrectangle{Float64,Vector{Float64},Vector{Float64}},
     }
+
     @test typeof(sys_l) == ConstrainedLinearControlDiscreteSystem{
         Float64,
         Matrix{Float64},
@@ -111,6 +118,18 @@ end
                             },
                             typeof(vcat),
                         },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
                     },
                 },
                 Dense{typeof(identity),Matrix{Float32},Bool},
@@ -119,6 +138,7 @@ end
         Hyperrectangle{Float64,Vector{Float64},Vector{Float64}},
         Hyperrectangle{Float64,Vector{Float64},Vector{Float64}},
     }
+
     @test typeof(sys_l) == ConstrainedLinearControlContinuousSystem{
         Float64,
         Matrix{Float64},

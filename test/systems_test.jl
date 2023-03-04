@@ -276,7 +276,6 @@ end
     @test LazySets.high(sys.U) == [1.0]
 end
 
-
 @testset "Linear discrete identification system with input constraints" begin
 
     model_origin = "identification"
@@ -345,6 +344,18 @@ end
                 Dense{typeof(identity),Matrix{Float32},Bool},
                 Chain{
                     Tuple{
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
                         SkipConnection{
                             Chain{
                                 Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
@@ -435,6 +446,18 @@ end
                 Dense{typeof(identity),Matrix{Float32},Bool},
                 Chain{
                     Tuple{
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
+                        SkipConnection{
+                            Chain{
+                                Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
+                            },
+                            typeof(vcat),
+                        },
                         SkipConnection{
                             Chain{
                                 Tuple{Dense{typeof(relu),Matrix{Float32},Vector{Float32}}},
