@@ -4,6 +4,8 @@
 
 * Julia code formatter.
 * Add Actions.
+* Improve tests for continuous integration.
+* Project.toml [compat] entry deps with upper-bounded.
 
 ## v0.1.2
 
