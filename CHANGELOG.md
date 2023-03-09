@@ -1,5 +1,9 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.4
+
+* Modification of proceed_system for linear and non-linear model. 
+
 ## v0.1.3
 
 * Julia code formatter.

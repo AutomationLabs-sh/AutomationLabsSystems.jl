@@ -8,109 +8,27 @@
 
 """
     proceed_system
-A function for system creation.
+A function for system creation from linear discrete or continuous model.
 
 The following variables are mendatories:
-* `model_method`: a String for continous or discrete system.
-* `model_origin`: a String for origin of the model.
+* `A`: a state matrix.
+* `B`: a input matrix.
+* `nbr_state`: the state number.
+* `nbr_input`: the input number.
+* `variation`: continuous or discrete variation.
 
 It is possible to define optional variables kws.
 """
-function proceed_system(model_method, model_origin; kws_...)
+function proceed_system(A, B, nbr_state, nbr_input, variation; kws_...)
 
     # Get argument kws
     dict_kws = Dict{Symbol,Any}(kws_)
     kws = get(dict_kws, :kws, kws_)
 
-    if model_origin == "user"
-
-        # Evaluate if linear state matrix is present
-        if haskey(kws, :A) == true &&
-           haskey(kws, :B) == true &&
-           model_method == "continuous"
-            # It is a linear model
-            A = kws[:A]
-            B = kws[:B]
-            nbr_state = size(A, 1)
-            nbr_input = size(B, 2)
-            model = ContinuousLinearModel(A, B, nbr_state, nbr_input)
-        end
-
-        # Evaluate if linear state matrix is present
-        if haskey(kws, :A) == true && haskey(kws, :B) == true && model_method == "discrete"
-            # It is a linear model
-            A = kws[:A]
-            B = kws[:B]
-            nbr_state = size(A, 1)
-            nbr_input = size(B, 2)
-            model = DiscreteLinearModel(A, B, nbr_state, nbr_input)
-        end
-
-        # Evaluate if f and non linear
-        if haskey(kws, :f) == true && model_method == "continuous"
-            # It is a non linear model
-            f = kws[:f]
-            nbr_state = kws[:nbr_state]
-            nbr_input = kws[:nbr_input]
-            model = ContinuousNonLinearModel(f, nbr_state, nbr_input)
-        end
-
-        # Evaluate if f and non linear
-        if haskey(kws, :f) == true && model_method == "discrete"
-            # It is a non linear model
-            f = kws[:f]
-            nbr_state = kws[:nbr_state]
-            nbr_input = kws[:nbr_input]
-            model = DiscreteNonLinearModel(f, nbr_state, nbr_input)
-        end
-
-    end
-
-    if model_origin == "identification"
-        #extract the model type 
-
-        if haskey(kws, :f) == true && model_method == "continuous"
-
-            machine_mlj = kws[:f]
-            # Get the type of the model from the machine_mlj
-            model_mlj_type = _get_mlj_model_type(machine_mlj)
-
-            if typeof(model_mlj_type) ==
-               MLJMultivariateStatsInterface.MultitargetLinearRegressor
-                nbr_state = kws[:nbr_state]
-                nbr_input = kws[:nbr_input]
-                A, B = _extract_model_from_machine(model_mlj_type, machine_mlj, nbr_state)
-                model = ContinuousLinearModel(A, B, nbr_state, nbr_input)
-            else
-                model_machine = _extract_model_from_machine(model_mlj_type, machine_mlj)
-                nbr_state = kws[:nbr_state]
-                nbr_input = kws[:nbr_input]
-                model = ContinuousNonLinearModel(model_machine, nbr_state, nbr_input)
-            end
-        end
-
-        if haskey(kws, :f) == true && model_method == "discrete"
-
-            machine_mlj = kws[:f]
-            # Get the type of the model from the machine_mlj
-            model_mlj_type = _get_mlj_model_type(machine_mlj)
-
-            if typeof(model_mlj_type) ==
-               MLJMultivariateStatsInterface.MultitargetLinearRegressor
-                nbr_state = kws[:nbr_state]
-                nbr_input = kws[:nbr_input]
-                A, B = _extract_model_from_machine(model_mlj_type, machine_mlj, nbr_state)
-                #nbr_state = size(A, 1)
-                #nbr_input = size(B, 2)
-                model = DiscreteLinearModel(A, B, nbr_state, nbr_input)
-            else
-                model_machine = _extract_model_from_machine(model_mlj_type, machine_mlj)
-                nbr_state = kws[:nbr_state]
-                nbr_input = kws[:nbr_input]
-                model = DiscreteNonLinearModel(model_machine, nbr_state, nbr_input)
-            end
-        end
-
+    if variation == "continuous"
+        model = ContinuousLinearModel(A, B, nbr_state, nbr_input)
+    elseif variation == "discrete"
+        model = DiscreteLinearModel(A, B, nbr_state, nbr_input)
     end
 
     # Set the system with constraints
@@ -127,12 +45,56 @@ function proceed_system(model_method, model_origin; kws_...)
     elseif haskey(kws, :input_constraint) == false &&
            haskey(kws, :state_constraint) == false
         # Issues
-        @error "There are no input nor state constraints"
+        @error "There are no input nor state constraints, at least input constaint is mandatory"
     else
         # Issues
-        @error "There are no input nor state constraints"
+        @error "There are no input nor state constraints, at least input constaint is mandatory"
+    end
+end
+
+"""
+    proceed_system
+A function for system creation from non-linear discrete or continuous model.
+
+The following variables are mendatories:
+* `f`: a non-linear function.
+* `nbr_state`: the state number.
+* `nbr_input`: the input number.
+* `variation`: continuous or discrete variation.
+
+It is possible to define optional variables kws.
+"""
+function proceed_system(f, nbr_state, nbr_input, variation; kws_...)
+
+    # Get argument kws
+    dict_kws = Dict{Symbol,Any}(kws_)
+    kws = get(dict_kws, :kws, kws_)
+
+    if variation == "continuous"
+        model = ContinuousNonLinearModel(f, nbr_state, nbr_input)
+    elseif variation == "discrete"
+        model = DiscreteNonLinearModel(f, nbr_state, nbr_input)
     end
 
+    # Set the system with constraints
+
+    if haskey(kws, :input_constraint) == true && haskey(kws, :state_constraint) == true
+        # System with input and state constraints
+        return system =
+            _controller_system_design(model, kws[:input_constraint], kws[:state_constraint])
+
+    elseif haskey(kws, :input_constraint) == true && haskey(kws, :state_constraint) == false
+        # System with input and no state constraints
+        return system = _controller_system_design(model, kws[:input_constraint])
+
+    elseif haskey(kws, :input_constraint) == false &&
+           haskey(kws, :state_constraint) == false
+        # Issues
+        @error "There are no input nor state constraints, at least input constraint is mandatory"
+    else
+        # Issues
+        @error "There are no input nor state constraints, at least input constraint is mandatory"
+    end
 end
 
 """
