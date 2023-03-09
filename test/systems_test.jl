@@ -93,6 +93,35 @@ end
     @test LazySets.high(sys.U) == [1.0]
 end
 
+@testset "Linear user system without constraints" begin
+
+    A = [
+        1 1
+        0 0.9
+    ]
+    B = [1; 0.5]
+
+    nbr_state = 2
+    nbr_input = 1
+
+    sys = proceed_system(
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "discrete";
+    )
+
+    @test typeof(sys) == LinearControlDiscreteSystem{
+        Float64,
+        Matrix{Float64},
+        Matrix{Float64},
+    }
+
+    @test sys.A == A
+    @test sys.B == [1.0; 0.5;;]
+end
+
 @testset "Non linear user system with input and state constraints" begin
 
     model_origin = "user"
@@ -157,6 +186,30 @@ end
     @test LazySets.high(sys.X) == [0.0]
     @test LazySets.low(sys.U) == [-1.0]
     @test LazySets.high(sys.U) == [1.0]
+end
+
+@testset "Non linear user system without constraints" begin
+
+    f = function in(x)
+        cos(x)
+    end
+
+    nbr_state = 1
+    nbr_input = 1
+
+    sys = proceed_system(
+        f,
+        nbr_state,
+        nbr_input,
+        "discrete";
+    )
+
+    @test typeof(sys) == BlackBoxControlDiscreteSystem{
+        typeof(in),
+    }
+
+    @test sys.f == f
+
 end
 
 ### Continuous ### 
@@ -237,6 +290,35 @@ end
     @test LazySets.high(sys.U) == [1.0]
 end
 
+@testset "Linear user system continuous without constraints" begin
+
+    A = [
+        1 1
+        0 0.9
+    ]
+    B = [1; 0.5]
+    nbr_state = 2
+    nbr_input = 1
+
+
+    sys = proceed_system(
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "continuous";
+    )
+
+    @test typeof(sys) == LinearControlContinuousSystem{
+        Float64,
+        Matrix{Float64},
+        Matrix{Float64},
+    }
+
+    @test sys.A == A
+    @test sys.B == [1.0; 0.5;;]
+end
+
 @testset "Non linear user system with input and state constraints" begin
 
     model_origin = "user"
@@ -301,6 +383,29 @@ end
     @test LazySets.high(sys.X) == [0.0]
     @test LazySets.low(sys.U) == [-1.0]
     @test LazySets.high(sys.U) == [1.0]
+end
+
+@testset "Non linear user system without constraints" begin
+
+    f = function in(x)
+        cos(x)
+    end
+
+    nbr_state = 1
+    nbr_input = 1
+
+    sys = proceed_system(
+        f,
+        nbr_state,
+        nbr_input,
+        "continuous",    
+    )
+
+    @test typeof(sys) == BlackBoxControlContinuousSystem{
+        typeof(in),
+    }
+
+    @test sys.f == f
 end
 
 ### Model from identification ###

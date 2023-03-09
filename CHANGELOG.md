@@ -2,7 +2,8 @@
 
 ## v0.1.4
 
-* Modification of proceed_system for linear and non-linear model. 
+* Modification of proceed_system (linear and non-linear model). 
+* Add system without constraints (linear and non-linear model). 
 * Improve tests.
 
 ## v0.1.3

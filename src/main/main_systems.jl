@@ -44,8 +44,7 @@ function proceed_system(A, B, nbr_state, nbr_input, variation; kws_...)
 
     elseif haskey(kws, :input_constraint) == false &&
            haskey(kws, :state_constraint) == false
-        # Issues
-        @error "There are no input nor state constraints, at least input constaint is mandatory"
+        return system = _controller_system_design(model)
     else
         # Issues
         @error "There are no input nor state constraints, at least input constaint is mandatory"
@@ -89,8 +88,7 @@ function proceed_system(f, nbr_state, nbr_input, variation; kws_...)
 
     elseif haskey(kws, :input_constraint) == false &&
            haskey(kws, :state_constraint) == false
-        # Issues
-        @error "There are no input nor state constraints, at least input constraint is mandatory"
+        return system = _controller_system_design(model)
     else
         # Issues
         @error "There are no input nor state constraints, at least input constraint is mandatory"
@@ -107,6 +105,36 @@ The function uses ForwardDiff package and the jacobian function.
 * `state`: references state point.
 * `input`: references input point.
 """
+function proceed_system_linearization(
+    system::MathematicalSystems.BlackBoxControlContinuousSystem,
+    state::Vector{Float64},
+    input::Vector{Float64},
+)
+
+    #Linearization to get A and B at references values (state and input)
+    VectorXU = vcat(state, input)
+    JacobianMatrix = ForwardDiff.jacobian(system.f, VectorXU)
+    A_sys = JacobianMatrix[1:system.statedim, 1:system.statedim]
+    B_sys = JacobianMatrix[1:system.statedim, system.statedim+1:end]
+
+    return MathematicalSystems.@system x' = A_sys * x + B_sys * u 
+end
+
+function proceed_system_linearization(
+    system::MathematicalSystems.BlackBoxControlDiscreteSystem,
+    state::Vector{Float64},
+    input::Vector{Float64},
+)
+
+    #Linearization to get A and B at references values (state and input)
+    VectorXU = vcat(state, input)
+    JacobianMatrix = ForwardDiff.jacobian(system.f, VectorXU)
+    A_sys = JacobianMatrix[1:system.statedim, 1:system.statedim]
+    B_sys = JacobianMatrix[1:system.statedim, system.statedim+1:end]
+
+    return MathematicalSystems.@system x' = A_sys * x + B_sys * u 
+end
+
 function proceed_system_linearization(
     system::MathematicalSystems.ConstrainedBlackBoxControlContinuousSystem,
     state::Vector{Float64},

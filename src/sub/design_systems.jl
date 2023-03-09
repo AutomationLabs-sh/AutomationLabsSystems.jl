@@ -10,6 +10,20 @@
 _controller_system_design
 A function for design the system (model and constraints) with MathematicalSystems from non linear model.
 """
+function _controller_system_design(model::DiscreteNonLinearModel)
+
+    # Set the system
+    return MathematicalSystems.BlackBoxControlDiscreteSystem(
+        model.f,
+        model.nbr_state,
+        model.nbr_input,
+    )
+end
+
+"""
+_controller_system_design
+A function for design the system (model and constraints) with MathematicalSystems from non linear model.
+"""
 function _controller_system_design(model::DiscreteNonLinearModel, input_constraint)
 
     # Set constraints with Lazy Sets
@@ -76,6 +90,16 @@ end
 _controller_system_design
 A function for design the system (model and constraints) with MathematicalSystems from linear model.
 """
+function _controller_system_design(model::DiscreteLinearModel)
+
+    # Set the system
+    return MathematicalSystems.@system x⁺ = model.A * x + model.B * u
+end
+
+"""
+_controller_system_design
+A function for design the system (model and constraints) with MathematicalSystems from linear model.
+"""
 function _controller_system_design(model::DiscreteLinearModel, input_constraint)
 
     # Set constraints with Lazy Sets
@@ -125,6 +149,20 @@ function _controller_system_design(
     # Set the system
     return MathematicalSystems.@system x⁺ = model.A * x + model.B * u x ∈ X u ∈ U
     #MathematicalSystems.ConstrainedLinearControlDiscreteSystem(model.A, model.B, X, U)
+end
+
+"""
+_controller_system_design
+A function for design the system (model and constraints) with MathematicalSystems from non linear model.
+"""
+function _controller_system_design(model::ContinuousNonLinearModel)
+
+    # Set the system
+    return MathematicalSystems.BlackBoxControlContinuousSystem(
+        model.f,
+        model.nbr_state,
+        model.nbr_input,
+    )
 end
 
 """
@@ -191,6 +229,16 @@ function _controller_system_design(
         X,
         U,
     )
+end
+
+"""
+_controller_system_design
+A function for design the system (model and constraints) with MathematicalSystems from linear model.
+"""
+function _controller_system_design(model::ContinuousLinearModel)
+
+    # Set the system
+    return MathematicalSystems.@system x' = model.A * x + model.B * u 
 end
 
 """
