@@ -21,18 +21,22 @@ using Flux
 
     densenet = machine("./models_saved/densenet_train_result.jls")
 
+    f = MLJ.fitted_params(MLJ.fitted_params(densenet).machine).best_fitted_params[1]
+
     u_cons = [
         -1 1
         -1 1
     ]
 
+    nbr_state = 4
+    nbr_input = 2
+    
     sys = proceed_system(
-        "discrete",
-        model_origin;
-        f = densenet,
+        f,
+        nbr_state,
+        nbr_input,
+        "discrete";
         input_constraint = u_cons,
-        nbr_state = 4,
-        nbr_input = 2,
     )
 
     x_ref = [0.65, 0.65, 0.65, 0.65]
@@ -88,18 +92,22 @@ end
 
     densenet = machine("./models_saved/densenet_train_result.jls")
 
+    f = MLJ.fitted_params(MLJ.fitted_params(densenet).machine).best_fitted_params[1]
+
     u_cons = [
         -1 1
         -1 1
     ]
 
+    nbr_state = 4
+    nbr_input = 2
+    
     sys = proceed_system(
-        "continuous",
-        model_origin;
-        f = densenet,
+        f,
+        nbr_state,
+        nbr_input,
+        "continuous";
         input_constraint = u_cons,
-        nbr_state = 4,
-        nbr_input = 2,
     )
 
     x_ref = [0.65, 0.65, 0.65, 0.65]

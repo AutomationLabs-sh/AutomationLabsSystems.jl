@@ -9,7 +9,6 @@ module SystemsLinearizationTest
 
 using Test
 using AutomationLabsSystems
-using AutomationLabsIdentification
 using MathematicalSystems
 using LazySets
 using MLJ
@@ -17,9 +16,9 @@ using Flux
 
 @testset "Discretize a linear continuous system" begin
 
-    model_origin = "user"
     A = [1 1; 0 0.9]
     B = [1; 0.5]
+
     nbr_state = 2
     nbr_input = 1
 
@@ -31,10 +30,11 @@ using Flux
     u_cons = [-1.0 1.0]
 
     sys_c = proceed_system(
-        "continuous",
-        model_origin;
-        A = A,
-        B = B,
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "continuous";
         input_constraint = u_cons,
         state_constraint = x_cons,
     )

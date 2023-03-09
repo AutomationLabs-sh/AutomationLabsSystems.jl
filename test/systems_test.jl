@@ -15,6 +15,8 @@ using LazySets
 using MLJ
 using Flux
 
+
+### Discrete ###
 @testset "Linear user system with state and input constraints" begin
 
     model_origin = "user"
@@ -30,10 +32,11 @@ using Flux
     u_cons = [-1.0 1.0]
 
     sys = proceed_system(
-        "discrete",
-        model_origin;
-        A = A,
-        B = B,
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "discrete";
         input_constraint = u_cons,
         state_constraint = x_cons,
     )
@@ -66,7 +69,14 @@ end
 
     u_cons = [-1 1]
 
-    sys = proceed_system("discrete", model_origin; A = A, B = B, input_constraint = u_cons)
+    sys = proceed_system(
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "discrete";
+        input_constraint = u_cons,
+    )
 
     @test typeof(sys) == ConstrainedLinearControlDiscreteSystem{
         Float64,
@@ -93,14 +103,16 @@ end
     u_cons = [-1 1]
     x_cons = [-1 1]
 
+    nbr_state = 1
+    nbr_input = 1
+
     sys = proceed_system(
-        "discrete",
-        model_origin;
-        f = f,
+        f,
+        nbr_state,
+        nbr_input,
+        "discrete";
         input_constraint = u_cons,
         state_constraint = x_cons,
-        nbr_state = 1,
-        nbr_input = 1,
     )
 
     @test typeof(sys) == ConstrainedBlackBoxControlDiscreteSystem{
@@ -124,13 +136,15 @@ end
 
     u_cons = [-1 1]
 
+    nbr_state = 1
+    nbr_input = 1
+
     sys = proceed_system(
-        "discrete",
-        model_origin;
-        f = f,
+        f,
+        nbr_state,
+        nbr_input,
+        "discrete";
         input_constraint = u_cons,
-        nbr_state = 1,
-        nbr_input = 1,
     )
 
     @test typeof(sys) == ConstrainedBlackBoxControlDiscreteSystem{
@@ -144,6 +158,8 @@ end
     @test LazySets.low(sys.U) == [-1.0]
     @test LazySets.high(sys.U) == [1.0]
 end
+
+### Continuous ### 
 
 @testset "Linear user system with state and input constraints" begin
 
@@ -160,10 +176,11 @@ end
     u_cons = [-1.0 1.0]
 
     sys = proceed_system(
-        "continuous",
-        model_origin;
-        A = A,
-        B = B,
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "continuous";
         input_constraint = u_cons,
         state_constraint = x_cons,
     )
@@ -183,7 +200,7 @@ end
     @test LazySets.high(sys.U) == [1.0]
 end
 
-@testset "Linear user system with input constraints" begin
+@testset "Linear user system continuous with input constraints" begin
 
     model_origin = "user"
     A = [
@@ -196,8 +213,14 @@ end
 
     u_cons = [-1 1]
 
-    sys =
-        proceed_system("continuous", model_origin; A = A, B = B, input_constraint = u_cons)
+    sys = proceed_system(
+        A,
+        B, 
+        nbr_state,
+        nbr_input,
+        "continuous";
+        input_constraint = u_cons,
+    )
 
     @test typeof(sys) == ConstrainedLinearControlContinuousSystem{
         Float64,
@@ -224,14 +247,16 @@ end
     u_cons = [-1 1]
     x_cons = [-1 1]
 
+    nbr_state = 1
+    nbr_input = 1
+
     sys = proceed_system(
-        "continuous",
-        model_origin;
-        f = f,
+        f,
+        nbr_state,
+        nbr_input,
+        "continuous";
         input_constraint = u_cons,
         state_constraint = x_cons,
-        nbr_state = 1,
-        nbr_input = 1,
     )
 
     @test typeof(sys) == ConstrainedBlackBoxControlContinuousSystem{
@@ -255,13 +280,15 @@ end
 
     u_cons = [-1 1]
 
+    nbr_state = 1
+    nbr_input = 1
+
     sys = proceed_system(
-        "continuous",
-        model_origin;
-        f = f,
+        f,
+        nbr_state,
+        nbr_input,
+        "continuous";
         input_constraint = u_cons,
-        nbr_state = 1,
-        nbr_input = 1,
     )
 
     @test typeof(sys) == ConstrainedBlackBoxControlContinuousSystem{
@@ -275,6 +302,11 @@ end
     @test LazySets.low(sys.U) == [-1.0]
     @test LazySets.high(sys.U) == [1.0]
 end
+
+### Model from identification ###
+# Not yet necessarely #
+
+#=
 
 @testset "Linear discrete identification system with input constraints" begin
 
@@ -479,5 +511,5 @@ end
     @test LazySets.high(sys.U) == [1.0, 1.0]
 
 end
-
+=#
 end

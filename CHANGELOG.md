@@ -3,6 +3,7 @@
 ## v0.1.4
 
 * Modification of proceed_system for linear and non-linear model. 
+* Improve tests.
 
 ## v0.1.3
 
