@@ -31,8 +31,10 @@ function _extract_model_from_machine(
         AutomationLabsIdentification.DenseNet,
         AutomationLabsIdentification.Rbf,
         AutomationLabsIdentification.PolyNet,
-        AutomationLabsIdentification.NeuralNetODE_type1,
-        AutomationLabsIdentification.NeuralNetODE_type2,
+        AutomationLabsIdentification.NeuralODE,
+        AutomationLabsIdentification.Rknn1,
+        AutomationLabsIdentification.Rknn2,
+        AutomationLabsIdentification.Rknn4,
     },
     machine_mlj,
 )

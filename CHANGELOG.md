@@ -1,5 +1,9 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.5
+
+* Remove neuralode_type1 and keep only neuralode_type2 as neuralODE from AutomationLabsIdentification.jl.
+
 ## v0.1.4
 
 * Modification of proceed_system (linear and non-linear model). 
