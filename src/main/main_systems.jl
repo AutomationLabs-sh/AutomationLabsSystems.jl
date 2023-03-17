@@ -195,129 +195,47 @@ function proceed_system_model_evaluation(
     system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
 )
 
-    if typeof(system.f) == Flux.Chain{
-        Tuple{
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-            Flux.Chain{
-                NTuple{4,Flux.Dense{typeof(NNlib.relu),Matrix{Float32},Vector{Float32}}},
-            },
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-        },
-    }
+    # Get keys from the neural networks
+    sublayers_name = collect(keys(system.f))
+
+    if sublayers_name[1] == :fnn_input
         model_type = AutomationLabsIdentification.Fnn()
 
-    elseif typeof(system.f) == Flux.Chain{
-        Tuple{
-            AutomationLabsIdentification.DenseIcnn{typeof(identity),Matrix{Float32},Bool},
-            Flux.Chain{
-                Tuple{
-                    AutomationLabsIdentification.DenseIcnn{
-                        typeof(NNlib.relu),
-                        Matrix{Float32},
-                        Vector{Float32},
-                    },
-                    AutomationLabsIdentification.DenseIcnn{
-                        typeof(NNlib.relu),
-                        Matrix{Float32},
-                        Vector{Float32},
-                    },
-                },
-            },
-            AutomationLabsIdentification.DenseIcnn{typeof(identity),Matrix{Float32},Bool},
-        },
-    }
+    elseif sublayers_name[1] == :icnn_input
         model_type = AutomationLabsIdentification.Icnn()
 
-    elseif typeof(system.f) == Flux.Chain{
-        Tuple{
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-            Flux.Chain{
-                Tuple{
-                    Flux.SkipConnection{
-                        Flux.Chain{
-                            Tuple{
-                                Flux.Dense{
-                                    typeof(NNlib.relu),
-                                    Matrix{Float32},
-                                    Vector{Float32},
-                                },
-                            },
-                        },
-                        typeof(+),
-                    },
-                },
-            },
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-        },
-    }
+    elseif sublayers_name[1] == :resnet_input
         model_type = AutomationLabsIdentification.ResNet()
 
-    elseif typeof(system.f) == Flux.Chain{
-        Tuple{
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-            Flux.Chain{
-                Tuple{
-                    Flux.SkipConnection{
-                        Flux.Chain{
-                            Tuple{
-                                Flux.Dense{
-                                    typeof(NNlib.relu),
-                                    Matrix{Float32},
-                                    Vector{Float32},
-                                },
-                            },
-                        },
-                        typeof(vcat),
-                    },
-                },
-            },
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-        },
-    }
-        model_type = AutomationLabsIdentification.DenseNet()
-
-    elseif typeof(system.f) == Flux.Chain{
-        Tuple{
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-            Flux.Chain{
-                NTuple{
-                    4,
-                    Flux.SkipConnection{
-                        Flux.Parallel{
-                            typeof(+),
-                            Tuple{
-                                Flux.Dense{
-                                    typeof(NNlib.relu),
-                                    Matrix{Float32},
-                                    Vector{Float32},
-                                },
-                                Flux.Chain{
-                                    Tuple{
-                                        Flux.Dense{
-                                            typeof(NNlib.relu),
-                                            Matrix{Float32},
-                                            Vector{Float32},
-                                        },
-                                        Flux.Dense{
-                                            typeof(NNlib.relu),
-                                            Matrix{Float32},
-                                            Vector{Float32},
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        typeof(+),
-                    },
-                },
-            },
-            Flux.Dense{typeof(identity),Matrix{Float32},Bool},
-        },
-    }
+    elseif sublayers_name[1] == :polynet_input
         model_type = AutomationLabsIdentification.PolyNet()
 
-    elseif typeof(system.f) == Function
-        model_type = typeof(system.f)
+    elseif sublayers_name[1] == :densenet_input
+        model_type = AutomationLabsIdentification.DenseNet()
+
+    elseif sublayers_name[1] == :rbf_input
+        model_type = AutomationLabsIdentification.Rbf()
+
+    elseif sublayers_name[1] == :neuralode_inner
+        model_type = AutomationLabsIdentification.NeuralODE()
+
+    elseif sublayers_name[1] == :rknn1_identity
+        model_type = AutomationLabsIdentification.Rknn1() 
+
+    elseif sublayers_name[1] == :rknn2_identity
+        model_type = AutomationLabsIdentification.Rknn2() 
+
+    elseif sublayers_name[1] == :rknn4_identity
+        model_type = AutomationLabsIdentification.Rknn4() 
+
+    elseif sublayers_name[1] == :rnn_input
+        model_type = AutomationLabsIdentification.Rnn() 
+
+    elseif sublayers_name[1] == :lstm_input
+        model_type = AutomationLabsIdentification.Lstm() 
+
+    elseif sublayers_name[1] == :gru_input
+        model_type = AutomationLabsIdentification.Gru() 
 
     end
 

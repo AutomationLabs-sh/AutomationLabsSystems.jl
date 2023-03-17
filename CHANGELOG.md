@@ -1,5 +1,9 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.6
+
+* Modification of proceed_system_model_evaluation with the name of neural networks sub-layers.
+
 ## v0.1.5
 
 * Remove neuralode_type1 and keep only neuralode_type2 as neuralODE from AutomationLabsIdentification.jl.
