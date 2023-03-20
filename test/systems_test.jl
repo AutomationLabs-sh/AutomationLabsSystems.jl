@@ -33,7 +33,7 @@ using Flux
 
     sys = proceed_system(
         A,
-        B, 
+        B,
         nbr_state,
         nbr_input,
         "discrete";
@@ -58,7 +58,6 @@ end
 
 @testset "Linear user system with input constraints" begin
 
-    model_origin = "user"
     A = [
         1 1
         0 0.9
@@ -69,14 +68,7 @@ end
 
     u_cons = [-1 1]
 
-    sys = proceed_system(
-        A,
-        B, 
-        nbr_state,
-        nbr_input,
-        "discrete";
-        input_constraint = u_cons,
-    )
+    sys = proceed_system(A, B, nbr_state, nbr_input, "discrete"; input_constraint = u_cons)
 
     @test typeof(sys) == ConstrainedLinearControlDiscreteSystem{
         Float64,
@@ -104,19 +96,10 @@ end
     nbr_state = 2
     nbr_input = 1
 
-    sys = proceed_system(
-        A,
-        B, 
-        nbr_state,
-        nbr_input,
-        "discrete";
-    )
+    sys = proceed_system(A, B, nbr_state, nbr_input, "discrete";)
 
-    @test typeof(sys) == LinearControlDiscreteSystem{
-        Float64,
-        Matrix{Float64},
-        Matrix{Float64},
-    }
+    @test typeof(sys) ==
+          LinearControlDiscreteSystem{Float64,Matrix{Float64},Matrix{Float64}}
 
     @test sys.A == A
     @test sys.B == [1.0; 0.5;;]
@@ -168,13 +151,7 @@ end
     nbr_state = 1
     nbr_input = 1
 
-    sys = proceed_system(
-        f,
-        nbr_state,
-        nbr_input,
-        "discrete";
-        input_constraint = u_cons,
-    )
+    sys = proceed_system(f, nbr_state, nbr_input, "discrete"; input_constraint = u_cons)
 
     @test typeof(sys) == ConstrainedBlackBoxControlDiscreteSystem{
         typeof(in),
@@ -197,16 +174,9 @@ end
     nbr_state = 1
     nbr_input = 1
 
-    sys = proceed_system(
-        f,
-        nbr_state,
-        nbr_input,
-        "discrete";
-    )
+    sys = proceed_system(f, nbr_state, nbr_input, "discrete";)
 
-    @test typeof(sys) == BlackBoxControlDiscreteSystem{
-        typeof(in),
-    }
+    @test typeof(sys) == BlackBoxControlDiscreteSystem{typeof(in)}
 
     @test sys.f == f
 
@@ -230,7 +200,7 @@ end
 
     sys = proceed_system(
         A,
-        B, 
+        B,
         nbr_state,
         nbr_input,
         "continuous";
@@ -266,14 +236,8 @@ end
 
     u_cons = [-1 1]
 
-    sys = proceed_system(
-        A,
-        B, 
-        nbr_state,
-        nbr_input,
-        "continuous";
-        input_constraint = u_cons,
-    )
+    sys =
+        proceed_system(A, B, nbr_state, nbr_input, "continuous"; input_constraint = u_cons)
 
     @test typeof(sys) == ConstrainedLinearControlContinuousSystem{
         Float64,
@@ -301,19 +265,10 @@ end
     nbr_input = 1
 
 
-    sys = proceed_system(
-        A,
-        B, 
-        nbr_state,
-        nbr_input,
-        "continuous";
-    )
+    sys = proceed_system(A, B, nbr_state, nbr_input, "continuous";)
 
-    @test typeof(sys) == LinearControlContinuousSystem{
-        Float64,
-        Matrix{Float64},
-        Matrix{Float64},
-    }
+    @test typeof(sys) ==
+          LinearControlContinuousSystem{Float64,Matrix{Float64},Matrix{Float64}}
 
     @test sys.A == A
     @test sys.B == [1.0; 0.5;;]
@@ -365,13 +320,7 @@ end
     nbr_state = 1
     nbr_input = 1
 
-    sys = proceed_system(
-        f,
-        nbr_state,
-        nbr_input,
-        "continuous";
-        input_constraint = u_cons,
-    )
+    sys = proceed_system(f, nbr_state, nbr_input, "continuous"; input_constraint = u_cons)
 
     @test typeof(sys) == ConstrainedBlackBoxControlContinuousSystem{
         typeof(in),
@@ -394,16 +343,9 @@ end
     nbr_state = 1
     nbr_input = 1
 
-    sys = proceed_system(
-        f,
-        nbr_state,
-        nbr_input,
-        "continuous",    
-    )
+    sys = proceed_system(f, nbr_state, nbr_input, "continuous")
 
-    @test typeof(sys) == BlackBoxControlContinuousSystem{
-        typeof(in),
-    }
+    @test typeof(sys) == BlackBoxControlContinuousSystem{typeof(in)}
 
     @test sys.f == f
 end

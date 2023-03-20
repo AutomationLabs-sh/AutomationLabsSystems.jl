@@ -117,7 +117,7 @@ function proceed_system_linearization(
     A_sys = JacobianMatrix[1:system.statedim, 1:system.statedim]
     B_sys = JacobianMatrix[1:system.statedim, system.statedim+1:end]
 
-    return MathematicalSystems.@system x' = A_sys * x + B_sys * u 
+    return MathematicalSystems.@system x' = A_sys * x + B_sys * u
 end
 
 function proceed_system_linearization(
@@ -132,7 +132,7 @@ function proceed_system_linearization(
     A_sys = JacobianMatrix[1:system.statedim, 1:system.statedim]
     B_sys = JacobianMatrix[1:system.statedim, system.statedim+1:end]
 
-    return MathematicalSystems.@system x' = A_sys * x + B_sys * u 
+    return MathematicalSystems.@system x' = A_sys * x + B_sys * u
 end
 
 function proceed_system_linearization(
@@ -189,10 +189,13 @@ end
 Function that return the types of the model inside the systems from AutomationLabsIdentification.
 
 ** Required fields **
-* `system`: the mathematital system that as in it the julia non-linear function `f` from AutomationLabsIdentification.
+* `system`: the mathematical system that as in it the julia non-linear function `f` from AutomationLabsIdentification.
 """
 function proceed_system_model_evaluation(
-    system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+    system::Union{
+        MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+        MathematicalSystems.BlackBoxControlDiscreteSystem,
+    },
 )
 
     # Get keys from the neural networks
@@ -220,22 +223,22 @@ function proceed_system_model_evaluation(
         model_type = AutomationLabsIdentification.NeuralODE()
 
     elseif sublayers_name[1] == :rknn1_identity
-        model_type = AutomationLabsIdentification.Rknn1() 
+        model_type = AutomationLabsIdentification.Rknn1()
 
     elseif sublayers_name[1] == :rknn2_identity
-        model_type = AutomationLabsIdentification.Rknn2() 
+        model_type = AutomationLabsIdentification.Rknn2()
 
     elseif sublayers_name[1] == :rknn4_identity
-        model_type = AutomationLabsIdentification.Rknn4() 
+        model_type = AutomationLabsIdentification.Rknn4()
 
     elseif sublayers_name[1] == :rnn_input
-        model_type = AutomationLabsIdentification.Rnn() 
+        model_type = AutomationLabsIdentification.Rnn()
 
     elseif sublayers_name[1] == :lstm_input
-        model_type = AutomationLabsIdentification.Lstm() 
+        model_type = AutomationLabsIdentification.Lstm()
 
     elseif sublayers_name[1] == :gru_input
-        model_type = AutomationLabsIdentification.Gru() 
+        model_type = AutomationLabsIdentification.Gru()
 
     end
 

@@ -238,7 +238,7 @@ A function for design the system (model and constraints) with MathematicalSystem
 function _controller_system_design(model::ContinuousLinearModel)
 
     # Set the system
-    return MathematicalSystems.@system x' = model.A * x + model.B * u 
+    return MathematicalSystems.@system x' = model.A * x + model.B * u
 end
 
 """

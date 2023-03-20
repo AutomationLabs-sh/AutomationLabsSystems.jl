@@ -31,7 +31,7 @@ using Flux
 
     sys_c = proceed_system(
         A,
-        B, 
+        B,
         nbr_state,
         nbr_input,
         "continuous";

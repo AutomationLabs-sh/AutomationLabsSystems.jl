@@ -35,6 +35,9 @@ function _extract_model_from_machine(
         AutomationLabsIdentification.Rknn1,
         AutomationLabsIdentification.Rknn2,
         AutomationLabsIdentification.Rknn4,
+        AutomationLabsIdentification.Rnn,
+        AutomationLabsIdentification.Lstm,
+        AutomationLabsIdentification.Gru,
     },
     machine_mlj,
 )

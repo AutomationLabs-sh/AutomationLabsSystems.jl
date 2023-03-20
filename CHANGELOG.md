@@ -1,5 +1,9 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.7
+
+* Tests improvement.
+
 ## v0.1.6
 
 * Modification of proceed_system_model_evaluation with the name of neural networks sub-layers.

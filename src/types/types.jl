@@ -52,7 +52,7 @@ Model non linear implementation with AutoamtionLabs.
 * `nbr_input`: the input number
 """
 struct ContinuousNonLinearModel <: AbstractModel
-    f::Union{Function,Flux.Chain}
+    f::Union{Function,Flux.Chain,Flux.Parallel}
     nbr_state::Int
     nbr_input::Int
 end
@@ -67,7 +67,7 @@ Model non linear implementation with AutoamtionLabs.
 * `nbr_input`: the input number
 """
 struct DiscreteNonLinearModel <: AbstractModel
-    f::Union{Function,Flux.Chain}
+    f::Union{Function,Flux.Chain,Flux.Parallel}
     nbr_state::Int
     nbr_input::Int
 end
