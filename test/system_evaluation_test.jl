@@ -20,7 +20,7 @@ import AutomationLabsSystems: _get_mlj_model_type
 import AutomationLabsSystems: _extract_model_from_machine
 
 ### Discrete ###
-@testset "Model evaluation" begin
+@testset "Model evaluation fnn, resnet, ..." begin
 
     fnn = machine("./models_saved/fnn_train_result.jls")
     icnn = machine("./models_saved/icnn_train_result.jls")
@@ -68,7 +68,6 @@ import AutomationLabsSystems: _extract_model_from_machine
     @test typeof(linear_type) ==
           typeof(MLJMultivariateStatsInterface.MultitargetLinearRegressor(bias = false))
 
-
     f_fnn = _extract_model_from_machine(fnn_type, fnn)
     f_icnn = _extract_model_from_machine(icnn_type, icnn)
     f_resnet = _extract_model_from_machine(resnet_type, resnet)
@@ -103,7 +102,6 @@ import AutomationLabsSystems: _extract_model_from_machine
     sys_gru = proceed_system(f_gru, nbr_state, nbr_input, variation)
     sys_linear = proceed_system(f_linear[1], f_linear[2], nbr_state, nbr_input, variation)
 
-
     fnn_type_2 = proceed_system_model_evaluation(sys_fnn)
     icnn_type_2 = proceed_system_model_evaluation(sys_icnn)
     resnet_type_2 = proceed_system_model_evaluation(sys_resnet)
@@ -114,9 +112,9 @@ import AutomationLabsSystems: _extract_model_from_machine
     rknn1_type_2 = proceed_system_model_evaluation(sys_rknn1)
     rknn2_type_2 = proceed_system_model_evaluation(sys_rknn2)
     rknn4_type_2 = proceed_system_model_evaluation(sys_rknn4)
-    #rnn_type_2 = proceed_system_model_evaluation(sys_rnn) 
-    #lstm_type_2 = proceed_system_model_evaluation(sys_lstm) 
-    #gru_type_2 = proceed_system_model_evaluation(sys_gru) 
+    rnn_type_2 = proceed_system_model_evaluation(sys_rnn) 
+    lstm_type_2 = proceed_system_model_evaluation(sys_lstm) 
+    gru_type_2 = proceed_system_model_evaluation(sys_gru) 
 
     @test typeof(fnn_type) == typeof(fnn_type_2)
     @test typeof(icnn_type) == typeof(icnn_type_2)
@@ -128,9 +126,9 @@ import AutomationLabsSystems: _extract_model_from_machine
     @test typeof(rknn1_type) == typeof(rknn1_type_2)
     @test typeof(rknn2_type) == typeof(rknn2_type_2)
     @test typeof(rknn4_type) == typeof(rknn4_type_2)
-    #@test typeof(rnn_type) == typeof(rnn_type_2)
-    #@test typeof(lstm_type) == typeof(lstm_type_2)
-    #@test typeof(gru_type) == typeof(gru_type_2)
+    @test typeof(rnn_type) == typeof(rnn_type_2)
+    @test typeof(lstm_type) == typeof(lstm_type_2)
+    @test typeof(gru_type) == typeof(gru_type_2)
 
 end
 
