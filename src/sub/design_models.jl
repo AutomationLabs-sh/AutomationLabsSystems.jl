@@ -43,7 +43,11 @@ function _extract_model_from_machine(
 )
 
     # Extract best model from the machine
-    return MLJ.fitted_params(MLJ.fitted_params(machine_mlj).machine).best_fitted_params[1]
+    f =  MLJ.fitted_params(MLJ.fitted_params(machine_mlj).machine).best_fitted_params[1]
+    
+    result = Dict(:f => f)
+
+    return result
 end
 
 """
@@ -53,15 +57,17 @@ A function for design the system (model and constraints) with MathematicalSystem
 function _extract_model_from_machine(
     model_type::MLJMultivariateStatsInterface.MultitargetLinearRegressor,
     machine_mlj,
-    nbr_state,
 )
 
     # Extract model from the machine
     AB_t = MLJ.fitted_params(machine_mlj).coefficients
+    nbr_state = size(AB_t, 2)
+
     AB = copy(AB_t')
     A = AB[:, 1:nbr_state]
     B = AB[:, nbr_state+1:end]
 
+    result = Dict(:A => A, :B => B)
     # Set the system
-    return A, B
+    return result
 end

@@ -2,6 +2,7 @@
 
 ## v0.1.7
 
+* Add dict for return for _extract_model_from_machine functions.
 * Tests improvement.
 
 ## v0.1.6
