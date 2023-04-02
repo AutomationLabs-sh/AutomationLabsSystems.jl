@@ -202,44 +202,57 @@ function proceed_system_model_evaluation(
     sublayers_name = collect(keys(system.f))
 
     if sublayers_name[1] == :fnn_input
-        model_type = AutomationLabsIdentification.Fnn()
+        #model_type = AutomationLabsIdentification.Fnn()
+        model_type = Fnn()
 
     elseif sublayers_name[1] == :icnn_input
-        model_type = AutomationLabsIdentification.Icnn()
+        #model_type = AutomationLabsIdentification.Icnn()
+        model_type = Icnn()
+
 
     elseif sublayers_name[1] == :resnet_input
-        model_type = AutomationLabsIdentification.ResNet()
+       #model_type = AutomationLabsIdentification.ResNet()
+        model_type = ResNet()
 
     elseif sublayers_name[1] == :polynet_input
-        model_type = AutomationLabsIdentification.PolyNet()
+        #model_type = AutomationLabsIdentification.PolyNet()
+        model_type = PolyNet()
 
     elseif sublayers_name[1] == :densenet_input
-        model_type = AutomationLabsIdentification.DenseNet()
+        #model_type = AutomationLabsIdentification.DenseNet()
+        model_type = DenseNet()
 
     elseif sublayers_name[1] == :rbf_input
-        model_type = AutomationLabsIdentification.Rbf()
+        #model_type = AutomationLabsIdentification.Rbf()
+        model_type = Rbf()
 
     elseif sublayers_name[1] == :neuralode_inner
-        model_type = AutomationLabsIdentification.NeuralODE()
+        #model_type = AutomationLabsIdentification.NeuralODE()
+        model_type = NeuralODE()
 
     elseif sublayers_name[1] == :rknn1_identity
-        model_type = AutomationLabsIdentification.Rknn1()
+        #model_type = AutomationLabsIdentification.Rknn1()
+        model_type = Rknn1()
 
     elseif sublayers_name[1] == :rknn2_identity
-        model_type = AutomationLabsIdentification.Rknn2()
+        #model_type = AutomationLabsIdentification.Rknn2()
+        model_type = Rknn2()
 
     elseif sublayers_name[1] == :rknn4_identity
-        model_type = AutomationLabsIdentification.Rknn4()
+        #model_type = AutomationLabsIdentification.Rknn4()
+        model_type = Rknn4()
 
     elseif sublayers_name[1] == :rnn_input
-        model_type = AutomationLabsIdentification.Rnn()
+        #model_type = AutomationLabsIdentification.Rnn()
+        model_type = Rnn()
 
     elseif sublayers_name[1] == :lstm_input
-        model_type = AutomationLabsIdentification.Lstm()
+        #model_type = AutomationLabsIdentification.Lstm()
+        model_type = Lstm()
 
     elseif sublayers_name[1] == :gru_input
-        model_type = AutomationLabsIdentification.Gru()
-
+        #model_type = AutomationLabsIdentification.Gru()
+        model_type = Gru()
     end
 
     return model_type

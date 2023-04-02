@@ -1,33 +1,30 @@
 name = "AutomationLabsSystems"
 uuid = "6d3dfdf0-e107-48c6-a6ff-eced1a5a9334"
 authors = ["Pierre BLAUD <pierre.blaud@ikmail.com> and contributors"]
-version = "0.1.7"
+version = "0.1.8"
 
 [deps]
-AutomationLabsIdentification = "48ff5a6f-d08b-4053-9585-6a9e3e078386"
 ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 LazySets = "b4f0291d-fe17-52bc-9479-3d1a343d9043"
-MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
-MLJMultivariateStatsInterface = "1b6a4a23-ba22-4f51-9698-8599985d3728"
 MathematicalSystems = "d14a8603-c872-5ed3-9ece-53e0e82e39da"
 NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
 
 [compat]
-AutomationLabsIdentification = "0.2"
 ControlSystems = "1.6"
 Flux = "0.13"
 ForwardDiff = "0.10"
 LazySets = "2"
-MLJ = "0.19"
-MLJMultivariateStatsInterface = "0.5"
 MathematicalSystems = "0.13"
 NNlib = "0.8"
 julia = "1"
 
 [extras]
+AutomationLabsIdentification = "48ff5a6f-d08b-4053-9585-6a9e3e078386"
+MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
+MLJMultivariateStatsInterface = "1b6a4a23-ba22-4f51-9698-8599985d3728"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Test", "AutomationLabsIdentification", "MLJ", "MLJMultivariateStatsInterface"]

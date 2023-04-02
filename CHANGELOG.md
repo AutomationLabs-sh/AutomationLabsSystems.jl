@@ -1,5 +1,12 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.8
+
+* Remove dependencies AutomationLabsIdentification, MLJ, MLJMultivariateStatsInterface.
+* Remove design_models.jl.
+* Add type models for removing the AutomationLabsIdentification dependency.
+* proceed_system_model_evaluation types modifications.
+
 ## v0.1.7
 
 * Add dict for return for _extract_model_from_machine functions.

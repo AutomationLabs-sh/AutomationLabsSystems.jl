@@ -9,15 +9,13 @@
 module AutomationLabsSystems
 
 import MathematicalSystems
-import AutomationLabsIdentification
-import MLJ
-import MLJMultivariateStatsInterface
 import LazySets
 import Flux
 import ForwardDiff
 import NNlib
 import ControlSystems
 
+# Export methods
 export proceed_system
 export proceed_system_linearization
 
@@ -26,7 +24,6 @@ export proceed_system_model_evaluation
 
 # Load files
 include("types/types.jl")
-include("sub/design_models.jl")
 include("sub/design_systems.jl")
 include("main/main_systems.jl")
 

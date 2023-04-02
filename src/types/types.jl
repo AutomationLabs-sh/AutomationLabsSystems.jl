@@ -71,3 +71,88 @@ struct DiscreteNonLinearModel <: AbstractModel
     nbr_state::Int
     nbr_input::Int
 end
+
+#This is a type reformulation to avoid AutomationLabsIdentification types deps
+"""
+    Fnn
+An feedforward neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Fnn <: AbstractModel end
+
+"""
+    Rbf
+An radial basis neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Rbf <: AbstractModel end
+
+"""
+    Icnn
+An input convex neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Icnn <: AbstractModel end
+
+"""
+    ResNet
+An residual layer network architecture type for dynamical system identification problem [ref].
+"""
+struct ResNet <: AbstractModel end
+
+"""
+    PolyNet
+An poly-inception network architecture type for dynamical system identification problem [ref].
+"""
+struct PolyNet <: AbstractModel end
+
+"""
+    DenseNet
+An densely connected network architecture type for dynamical system identification problem [ref].
+"""
+struct DenseNet <: AbstractModel end
+
+"""
+NeuralODE
+An neural neural network ODE architecture type for dynamical system identification problem [ref].
+"""
+struct NeuralODE <: AbstractModel end
+
+"""
+    Rknn1
+A runge-kutta neural neural network 1 architecture type for dynamical system identification problem [ref].
+"""
+struct Rknn1 <: AbstractModel end
+
+"""
+    Rknn2
+A runge-kutta neural neural network 2 architecture type for dynamical system identification problem [ref].
+"""
+struct Rknn2 <: AbstractModel end
+
+"""
+    Rknn4
+A runge-kutta neural neural network 4 architecture type for dynamical system identification problem [ref].
+"""
+struct Rknn4 <: AbstractModel end
+
+"""
+    linear
+An linear (Wv --> Ax + Bu) architecture type for dynamical system identification problem [ref].
+"""
+struct Linear <: AbstractModel end
+
+"""
+    Rnn
+A recurrent neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Rnn <: AbstractModel end
+
+"""
+    lstm
+A long short-term memory recurrent neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Lstm <: AbstractModel end
+
+"""
+    gru
+A gated recurrent unit recurrent neural network architecture type for dynamical system identification problem [ref].
+"""
+struct Gru <: AbstractModel end

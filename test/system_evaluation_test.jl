@@ -16,9 +16,6 @@ using MLJ
 using Flux
 using MLJMultivariateStatsInterface
 
-import AutomationLabsSystems: _get_mlj_model_type
-import AutomationLabsSystems: _extract_model_from_machine
-
 ### Discrete ###
 @testset "Model evaluation fnn, resnet, ..." begin
 
@@ -37,20 +34,20 @@ import AutomationLabsSystems: _extract_model_from_machine
     gru = machine("./models_saved/gru_train_result.jls")
     linear = machine("./models_saved/linear_regressor_train_result.jls")
 
-    fnn_type = _get_mlj_model_type(fnn)
-    icnn_type = _get_mlj_model_type(icnn)
-    resnet_type = _get_mlj_model_type(resnet)
-    polynet_type = _get_mlj_model_type(polynet)
-    densenet_type = _get_mlj_model_type(densenet)
-    rbf_type = _get_mlj_model_type(rbf)
-    neuralode_type = _get_mlj_model_type(neuralode)
-    rknn1_type = _get_mlj_model_type(rknn1)
-    rknn2_type = _get_mlj_model_type(rknn2)
-    rknn4_type = _get_mlj_model_type(rknn4)
-    rnn_type = _get_mlj_model_type(rnn)
-    lstm_type = _get_mlj_model_type(lstm)
-    gru_type = _get_mlj_model_type(gru)
-    linear_type = _get_mlj_model_type(linear)
+    fnn_type = AutomationLabsIdentification.get_mlj_model_type(fnn)
+    icnn_type = AutomationLabsIdentification.get_mlj_model_type(icnn)
+    resnet_type = AutomationLabsIdentification.get_mlj_model_type(resnet)
+    polynet_type = AutomationLabsIdentification.get_mlj_model_type(polynet)
+    densenet_type = AutomationLabsIdentification.get_mlj_model_type(densenet)
+    rbf_type = AutomationLabsIdentification.get_mlj_model_type(rbf)
+    neuralode_type = AutomationLabsIdentification.get_mlj_model_type(neuralode)
+    rknn1_type = AutomationLabsIdentification.get_mlj_model_type(rknn1)
+    rknn2_type = AutomationLabsIdentification.get_mlj_model_type(rknn2)
+    rknn4_type = AutomationLabsIdentification.get_mlj_model_type(rknn4)
+    rnn_type = AutomationLabsIdentification.get_mlj_model_type(rnn)
+    lstm_type = AutomationLabsIdentification.get_mlj_model_type(lstm)
+    gru_type = AutomationLabsIdentification.get_mlj_model_type(gru)
+    linear_type = AutomationLabsIdentification.get_mlj_model_type(linear)
 
     @test typeof(fnn_type) == typeof(AutomationLabsIdentification.Fnn())
     @test typeof(icnn_type) == typeof(AutomationLabsIdentification.Icnn())
@@ -68,20 +65,20 @@ import AutomationLabsSystems: _extract_model_from_machine
     @test typeof(linear_type) ==
           typeof(MLJMultivariateStatsInterface.MultitargetLinearRegressor(bias = false))
 
-    f_fnn = _extract_model_from_machine(fnn_type, fnn)
-    f_icnn = _extract_model_from_machine(icnn_type, icnn)
-    f_resnet = _extract_model_from_machine(resnet_type, resnet)
-    f_polynet = _extract_model_from_machine(polynet_type, polynet)
-    f_densenet = _extract_model_from_machine(densenet_type, densenet)
-    f_rbf = _extract_model_from_machine(rbf_type, rbf)
-    f_neuralode = _extract_model_from_machine(neuralode_type, neuralode)
-    f_rknn1 = _extract_model_from_machine(rknn1_type, rknn1)
-    f_rknn2 = _extract_model_from_machine(rknn2_type, rknn2)
-    f_rknn4 = _extract_model_from_machine(rknn4_type, rknn4)
-    f_rnn = _extract_model_from_machine(rnn_type, rnn)
-    f_lstm = _extract_model_from_machine(lstm_type, lstm)
-    f_gru = _extract_model_from_machine(gru_type, gru)
-    f_linear = _extract_model_from_machine(linear_type, linear)
+    f_fnn = AutomationLabsIdentification.extract_model_from_machine(fnn_type, fnn)
+    f_icnn = AutomationLabsIdentification.extract_model_from_machine(icnn_type, icnn)
+    f_resnet = AutomationLabsIdentification.extract_model_from_machine(resnet_type, resnet)
+    f_polynet = AutomationLabsIdentification.extract_model_from_machine(polynet_type, polynet)
+    f_densenet = AutomationLabsIdentification.extract_model_from_machine(densenet_type, densenet)
+    f_rbf = AutomationLabsIdentification.extract_model_from_machine(rbf_type, rbf)
+    f_neuralode = AutomationLabsIdentification.extract_model_from_machine(neuralode_type, neuralode)
+    f_rknn1 = AutomationLabsIdentification.extract_model_from_machine(rknn1_type, rknn1)
+    f_rknn2 = AutomationLabsIdentification.extract_model_from_machine(rknn2_type, rknn2)
+    f_rknn4 = AutomationLabsIdentification.extract_model_from_machine(rknn4_type, rknn4)
+    f_rnn = AutomationLabsIdentification.extract_model_from_machine(rnn_type, rnn)
+    f_lstm = AutomationLabsIdentification.extract_model_from_machine(lstm_type, lstm)
+    f_gru = AutomationLabsIdentification.extract_model_from_machine(gru_type, gru)
+    f_linear = AutomationLabsIdentification.extract_model_from_machine(linear_type, linear)
 
     nbr_state = 4
     nbr_input = 2
@@ -116,19 +113,19 @@ import AutomationLabsSystems: _extract_model_from_machine
     lstm_type_2 = proceed_system_model_evaluation(sys_lstm) 
     gru_type_2 = proceed_system_model_evaluation(sys_gru) 
 
-    @test typeof(fnn_type) == typeof(fnn_type_2)
-    @test typeof(icnn_type) == typeof(icnn_type_2)
-    @test typeof(resnet_type) == typeof(resnet_type_2)
-    @test typeof(polynet_type) == typeof(polynet_type_2)
-    @test typeof(densenet_type) == typeof(densenet_type_2)
-    @test typeof(rbf_type) == typeof(rbf_type_2)
-    @test typeof(neuralode_type) == typeof(neuralode_type_2)
-    @test typeof(rknn1_type) == typeof(rknn1_type_2)
-    @test typeof(rknn2_type) == typeof(rknn2_type_2)
-    @test typeof(rknn4_type) == typeof(rknn4_type_2)
-    @test typeof(rnn_type) == typeof(rnn_type_2)
-    @test typeof(lstm_type) == typeof(lstm_type_2)
-    @test typeof(gru_type) == typeof(gru_type_2)
+    @test AutomationLabsSystems.Fnn == typeof(fnn_type_2)
+    @test AutomationLabsSystems.Icnn  == typeof(icnn_type_2)
+    @test AutomationLabsSystems.ResNet  == typeof(resnet_type_2)
+    @test AutomationLabsSystems.PolyNet  == typeof(polynet_type_2)
+    @test AutomationLabsSystems.DenseNet  == typeof(densenet_type_2)
+    @test AutomationLabsSystems.Rbf == typeof(rbf_type_2)
+    @test AutomationLabsSystems.NeuralODE  == typeof(neuralode_type_2)
+    @test AutomationLabsSystems.Rknn1  == typeof(rknn1_type_2)
+    @test AutomationLabsSystems.Rknn2  == typeof(rknn2_type_2)
+    @test AutomationLabsSystems.Rknn4  == typeof(rknn4_type_2)
+    @test AutomationLabsSystems.Rnn  == typeof(rnn_type_2)
+    @test AutomationLabsSystems.Lstm  == typeof(lstm_type_2)
+    @test AutomationLabsSystems.Gru  == typeof(gru_type_2)
 
 end
 
