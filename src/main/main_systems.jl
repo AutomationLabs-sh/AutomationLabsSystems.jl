@@ -183,7 +183,6 @@ function proceed_system_linearization(
     return system
 end
 
-
 """
     proceed_system_model_evaluation
 Function that return the types of the model inside the systems from AutomationLabsIdentification.
@@ -209,9 +208,8 @@ function proceed_system_model_evaluation(
         #model_type = AutomationLabsIdentification.Icnn()
         model_type = Icnn()
 
-
     elseif sublayers_name[1] == :resnet_input
-       #model_type = AutomationLabsIdentification.ResNet()
+        #model_type = AutomationLabsIdentification.ResNet()
         model_type = ResNet()
 
     elseif sublayers_name[1] == :polynet_input
@@ -280,4 +278,98 @@ function proceed_system_discretization(
     B_sys = sys_d.B
 
     return MathematicalSystems.@system x⁺ = A_sys * x + B_sys * u x ∈ system.X u ∈ system.U
+end
+
+"""
+    proceed_system_evaluation
+Function that return the MathematicalSystems type of a AutomationLabsSystem. 
+
+** Required fields **
+* `system`: the mathematital system that as in it the julia linear or non-linear function `f`.
+"""
+function proceed_system_evaluation(
+    system::MathematicalSystems.BlackBoxControlDiscreteSystem,
+)
+    return MathematicalSystems.BlackBoxControlDiscreteSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+)
+    return MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.BlackBoxControlContinuousSystem,
+)
+    return MathematicalSystems.BlackBoxControlContinuousSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.ConstrainedBlackBoxControlContinuousSystem,
+)
+    return MathematicalSystems.ConstrainedBlackBoxControlContinuousSystem
+end
+
+function proceed_system_evaluation(system::MathematicalSystems.LinearControlDiscreteSystem)
+    return MathematicalSystems.LinearControlDiscreteSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.ConstrainedLinearControlDiscreteSystem,
+)
+    return MathematicalSystems.ConstrainedLinearControlDiscreteSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.LinearControlContinuousSystem,
+)
+    return MathematicalSystems.LinearControlContinuousSystem
+end
+
+function proceed_system_evaluation(
+    system::MathematicalSystems.ConstrainedLinearControlContinuousSystem,
+)
+    return MathematicalSystems.ConstrainedLinearControlContinuousSystem
+end
+
+"""
+    proceed_system_constraints_evaluation
+Function that return the constraints of a AutomationLabsSystem. 
+
+** Required fields **
+* `system`: the mathematital system that as in it the julia linear or non-linear function `f`.
+"""
+function proceed_system_constraints_evaluation(
+    system::Union{
+        MathematicalSystems.BlackBoxControlDiscreteSystem,
+        MathematicalSystems.BlackBoxControlContinuousSystem,
+        MathematicalSystems.LinearControlDiscreteSystem,
+        MathematicalSystems.LinearControlContinuousSystem,
+    },
+)
+
+    return nothing, nothing
+end
+
+function proceed_system_constraints_evaluation(
+    system::Union{
+        MathematicalSystems.ConstrainedBlackBoxControlDiscreteSystem,
+        MathematicalSystems.ConstrainedBlackBoxControlContinuousSystem,
+        MathematicalSystems.ConstrainedLinearControlDiscreteSystem,
+        MathematicalSystems.ConstrainedLinearControlContinuousSystem,
+    },
+)
+
+    x_cons =
+        hcat(LazySets.vertices_list(system.X)[end], LazySets.vertices_list(system.X)[begin])
+    u_cons =
+        hcat(LazySets.vertices_list(system.U)[end], LazySets.vertices_list(system.U)[begin])
+
+    # Evaluate if there is no X constraints
+    if (length(x_cons) == 0 || all(==(x_cons[1]), x_cons)) == true
+        x_cons = nothing
+    end
+
+    return x_cons, u_cons
 end

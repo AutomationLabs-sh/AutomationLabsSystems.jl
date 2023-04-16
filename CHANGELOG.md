@@ -1,5 +1,9 @@
 # AutomationLabsSystems Changelog
 
+## v0.1.9
+
+* Add proceed_system_evaluation and proceed_system_constraints_evaluation methods.
+ 
 ## v0.1.8
 
 * Remove dependencies AutomationLabsIdentification, MLJ, MLJMultivariateStatsInterface.

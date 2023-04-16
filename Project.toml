@@ -1,7 +1,7 @@
 name = "AutomationLabsSystems"
 uuid = "6d3dfdf0-e107-48c6-a6ff-eced1a5a9334"
 authors = ["Pierre BLAUD <pierre.blaud@ikmail.com> and contributors"]
-version = "0.1.8"
+version = "0.1.9"
 
 [deps]
 ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
