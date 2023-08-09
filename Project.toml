@@ -17,7 +17,7 @@ Flux = "0.13"
 ForwardDiff = "0.10"
 LazySets = "2"
 MathematicalSystems = "0.13"
-NNlib = "0.8"
+NNlib = "0.8, 0.9"
 julia = "1"
 
 [extras]
