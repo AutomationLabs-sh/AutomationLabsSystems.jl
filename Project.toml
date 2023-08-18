@@ -13,7 +13,7 @@ NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
 
 [compat]
 ControlSystems = "1.6"
-Flux = "0.13"
+Flux = "0.13, 0.14"
 ForwardDiff = "0.10"
 LazySets = "2"
 MathematicalSystems = "0.13"
